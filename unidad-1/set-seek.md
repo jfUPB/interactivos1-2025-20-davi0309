@@ -18,3 +18,15 @@ El arte generativo es más expresivo y se conecta con lo que siente el artista y
 ¿Cómo podrías aplicar lo que has visto en tu perfil profesional?
 
 Como Game Designer y Desarrollador de niveles podría implementar el arte generativo creando un algoritmo que permita generar mapas, niveles o entornos automáticamente, se podrían generar texturas o niveles que cambien según las decisiones del jugador, para reducir la carga en diseño manual y poder dar re jugabilidad a los jugadores, estos juegos se diferenciarían estéticamente ya que tiene menor recursos gráficos estáticos.
+
+### Actividad 03
+
+Inputs de entrada:
+Botón A, Botón B, Sacudir el micro.bit, el Botón de "Send Love" en el p5.js.
+
+Proceso:
+El micro.bit detecta los botones o el movimiento y envía datos al computador y el programa recibe los datos que le dimos mediante los inputs y actualiza lo que se ve en la pantalla del computador, si apretamos en "Send love" se le envia una orden o accion al micro.bit para mostrar las imagenes en los leds del micro.bit.
+
+Outputs de salida:
+En el computador cambia de color el circulo segun los datos enviados previamente, en el micro.bit se muestran imagenes en los leds de su pantalla uno al iniciar y otro al recibir "h" o "Send Love".
+
