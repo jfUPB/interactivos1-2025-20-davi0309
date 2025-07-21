@@ -85,3 +85,5 @@ function draw() {
   }
 }
 `
+Imagen generada por el programa:
+<img width="921" height="613" alt="imagen" src="https://github.com/user-attachments/assets/903107fe-05e4-46ee-8a70-3282fb57896f" />
