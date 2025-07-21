@@ -33,3 +33,55 @@ En el computador cambia de color el circulo segun los datos enviados previamente
 ### Actividad 04
 
 [P5-enlace](https://editor.p5js.org/davi0309/sketches/IY58J5_Cs)
+
+codigo de programa de imagenes
+`
+function setup() {
+  createCanvas(600, 400);
+  noStroke(); 
+  background(random(180,255),random(180,255),random(180,255));
+}
+
+function draw() {
+  
+  var x = random(width);
+  var y = random(height);
+
+  var size = random(10, 80);
+  
+  
+  var r = random(120,255);
+  var g = random(120,255);
+  var b = random(150,255);
+  var a = random(80, 225);
+
+  
+  let shapeType = int(random(3));
+
+  if (shapeType === 0) {
+    
+    fill(r, g, b, a);
+    ellipse(x, y, size, size);
+
+    
+  } else if (shapeType === 1) {
+    
+    fill(r, g, b, a);
+    rect(x, y, size, size);
+    
+  } 
+    
+    else if (shapeType === 2) {
+    stroke(r, g, b, a);
+    strokeWeight(random(0,20));
+    let x2 = x + random(-80,80)
+    let y2 = y + random(-80,80)
+    line(x, y, x2, y2);
+    noStroke(); 
+  }
+
+  if (frameCount > random(200,500)) {
+    noLoop();
+  }
+}
+`
