@@ -3,6 +3,7 @@
 ## 🛠 Fase: Apply
 
 ### Actividad 05
+El sistema que creamos permite que, al presionar el botón A del micro:bit, se envíe una señal al computador a través del puerto. Esa señal luego es recibida por el programa hecho en p5.js que reacciona visualmente en la pantalla, cambiando el color a rojo de el cuadrado en pantalla como respuesta visual. Tambien usamos un sistema que evita enviar información constantemente desde el micro:bit y solo transmite datos únicamente si el micro:bit ya está conectado al programa del computador para que no se carguen muchos datos antes de dar click y la respuesta pueda ser mas rapida y eficiente.
 
 ### Actividad 06
 
