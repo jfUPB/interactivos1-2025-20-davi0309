@@ -29,7 +29,11 @@ Parte 2: reflexión sobre tu proceso (Metacognición)
 
 6.¿Qué fue más desafiante para ti en esta unidad: la parte conceptual (entender qué es un sistema físico interactivo) o la parte técnica (hacer que el micro:bit y p5.js se comunicaran)? ¿Por qué?
 
+- Lo más dificil para mi fue la parte conceptual, por que siento que la parte de programas se me da muy bien y entiendo lo que coloco pero teoricamente se me dificulta entender como funcionan en verdad las cosas por detras y cual es el proceso paso a paso de como se corre los inputs y llegan a ser procesados.
+
 7.Describe el momento “¡Aha!” que tuviste cuando lograste que una acción en el micro:bit (presionar un botón, sacudirlo) tuviera un efecto visible en el canvas de p5.js por primera vez. ¿Qué fue lo que entendiste en ese instante?
+
+- Mi momento "¡Aha!" fue cuando nos entregaron el micro.bot por primera vez y programe que cuando el micro.bit se colocara de cabeza se encendiera la pantalla y mostrara una flecha hacia arriba, fue en ese momento en el que supe que se pueden lograr hacer cosas muy bacanas y entretenidas.
 
 8.Al inicio de la unidad te pregunté: “¿Este curso para qué me sirve?”. Después de experimentar y construir tu primer prototipo, ¿Cómo ha cambiado o se ha vuelto más concreta tu respuesta a esa pregunta?
 
