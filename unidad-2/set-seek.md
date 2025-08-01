@@ -73,3 +73,13 @@ while True:
     pixel2.update()
     pixel3.update()
 ```
+### Actividad 02
+1.Explica por qué decimos que este programa permite realizar de manera concurrente varias tareas.
+Por que mientras espero que pase el tiempo que debe estar la cara encendida o apagada puedo seguir usando más acciones de manera concurrente en el primer momento  espero el teimpo y puedo colocar la cara feliz para hacer varias acciones en el mismo tiempo, asi se pueden hacer multiples tareas.
+
+2.Identifica los estados, eventos y acciones en el programa.
+- Eventos:
+Las condiciones de espera del programa son si ya paso un segundo y medio con la cara feliz, espero a que pase 
+
+3.Describe y aplica al menos 3 vectores de prueba para el programa. Para definir un vector de prueba debes llevar al sistema a un estado, generar los eventos y observar el estado siguiente y las acciones que ocurrirán. Por tanto, un vector de prueba tiene unas condiciones iniciales del sistema, unos resultados esperados y los resultados realmente obtenidos. Si el resultado obtenido es igual al esperado entonces el sistema pasó el vector de prueba, de lo contrario el sistema puede tener un error.
+
