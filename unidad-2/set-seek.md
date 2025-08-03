@@ -5,12 +5,15 @@
 ### Actividad 01
 
 Describe detalladamente cómo funciona este ejemplo.
+
 Funciona con Update inicializamos unos pixels los cuales inician en un estado "Init" estos pixeles tienen unos parametros al ser creadas y al momento se carga pixel1.updtae() que lo que hace es cargar el metodo de update lo que se pregunta en que estado esta, si esta en init guarda el tiempo actual cambia el estado a "WaitTimeOut" y prende el led, luego se sigue cargando el update pero esta vez como no esta en "init" cambia y va hacia el evento del "WaitTimeOut" que me calcula cuanto tiempo ha pasado desde el "StartTime" y si ha pasado mas que el intervalo, y se carga la accion si esta encendido lo apaga y si esta apagado lo prende y actualiza el "StartTime" y se vuelve a cargar el elif.
 
 ¿Cuáles son los estados en el programa?
-son las partes donde se espera algo para poder llevar acabo una accion en este codigo seria el estado `WaitTimeOut` y el pseudo estado `init`.
+
+Son las partes donde se espera algo para poder llevar acabo una accion en este codigo seria el estado `WaitTimeOut` y el pseudo estado `init`.
 
 ¿Cuáles son los eventos/inputs en el programa?
+
 Los eventos son los encargados de preguntar si ya ocurrio algo o cambio algo desencadenar una lista de acciones en este caso seria esta linea de codigo:
 ```javascript
 if utime.ticks_diff(utime.ticks_ms(),self.startTime) > self.interval:
@@ -18,7 +21,8 @@ if utime.ticks_diff(utime.ticks_ms(),self.startTime) > self.interval:
 ```
 
 ¿Cuáles son las acciones en el programa?
-que hago
+
+Las acciones representan que hace el programa al entrar a un evento en el caso de este software las acciones serian las de prender los pixeles y de contar el tiempo en el que el pixel tiene que estar prendido y apagado.
 
 ### Actividad 02
 
@@ -73,13 +77,48 @@ while True:
     pixel2.update()
     pixel3.update()
 ```
-### Actividad 02
+
+Identifica los estados, eventos y acciones en tu código.
+
+- Estados: 
+  - `"QUIETO"` que es el subestado (init) en los codigos anteriores.
+  - `"ESPERA"` es el encargado de se activar el píxel, encenderlo, y hacer que empieze a contar el tiempo.
+  - `"ACTIVO"` significa que el pixel esta prendido y espera a que pase el tiempo del interval.
+- Eventos:
+  - los eventos de este software son muy parecidos a los de la Actividad 01 ya que es el paso del tiempo: en esta linea de codigo
+  - ```javascript
+    utime.ticks_diff(utime.ticks_ms(), self.startTime) > self.interval
+    ```
+    Aqui se evalúa en estado "Activo". Si se cumple, significa que el tiempo ya pasó, y el píxel debe apagarse y activar al siguiente.
+- Acciones:
+  - Prende el pixel.
+  - Guarda el tiempo de inicio.
+  - Cambia a estado activo.
+  - Apaga el pixel.
+  - cambia a estado `"QUIETO"`.
+  - y activa el siguiente pixel.
+
+### Actividad 03
 1.Explica por qué decimos que este programa permite realizar de manera concurrente varias tareas.
+
 Por que mientras espero que pase el tiempo que debe estar la cara encendida o apagada puedo seguir usando más acciones de manera concurrente en el primer momento  espero el teimpo y puedo colocar la cara feliz para hacer varias acciones en el mismo tiempo, asi se pueden hacer multiples tareas.
 
 2.Identifica los estados, eventos y acciones en el programa.
+- Estados:
+  - STATE_INIT
+  - STATE_HAPPY
+  - STATE_SMILE
+  - STATE_SAD
+
 - Eventos:
-Las condiciones de espera del programa son si ya paso un segundo y medio con la cara feliz, espero a que pase 
+  
+Las condiciones de espera del programa son si ya paso un segundo y medio con la cara feliz, espero a que pase 1 segundo en smile y espero a que pase 2 segundos en triste, y si el boton A esta siendo presionado.
+
+- Acciónes:
+  - Mostrar la imagen correspondiente al estado actual.
+  - Reiniciar el contador de tiempo `start_time`).
+  - Asignar un nuevo intervalo.
 
 3.Describe y aplica al menos 3 vectores de prueba para el programa. Para definir un vector de prueba debes llevar al sistema a un estado, generar los eventos y observar el estado siguiente y las acciones que ocurrirán. Por tanto, un vector de prueba tiene unas condiciones iniciales del sistema, unos resultados esperados y los resultados realmente obtenidos. Si el resultado obtenido es igual al esperado entonces el sistema pasó el vector de prueba, de lo contrario el sistema puede tener un error.
+
 
