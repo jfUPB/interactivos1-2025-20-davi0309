@@ -121,4 +121,47 @@ Las condiciones de espera del programa son si ya paso un segundo y medio con la 
 
 3.Describe y aplica al menos 3 vectores de prueba para el programa. Para definir un vector de prueba debes llevar al sistema a un estado, generar los eventos y observar el estado siguiente y las acciones que ocurrirán. Por tanto, un vector de prueba tiene unas condiciones iniciales del sistema, unos resultados esperados y los resultados realmente obtenidos. Si el resultado obtenido es igual al esperado entonces el sistema pasó el vector de prueba, de lo contrario el sistema puede tener un error.
 
+- Vector de prueba 01
+  
+Vamos a verificar la transicion de `STATE_INIT` a `STATE_HAPPY` y la condicion con la que inicia es el estado `STATE_INIT`, y no hay eventos externos asi que el programa no genera otro evento, los resultados que se esperan son que se muestre la imagen de happy, guarda el tiempo `start_time`, y transiciona al estado `STATE_HAPPY`.
+```javascript
+if current_state == STATE_INIT:
+        display.show(Image.HAPPY)
+        start_time = utime.ticks_ms()
+        interval = HAPPY_INTERVAL
+        current_state = STATE_HAPPY
+```
+y se llega al resultado esperado.
+
+- Vector de prueba 02
+  
+Vamos a verificar la transicion de `STATE_HAPPY` a `STATE_SAD` cuando se presiona el boton A, y la condicion con la que inicia es el estado `STATE_HAPPY`, el evento que se espera es que se presione el boton A y se devuelve un true, los resultados que se esperan son que se muestre la imagen de sad, se actualize el tiempo para que comience otra vez y no allan problemas con los intervalos de estos en `start_time`, y transiciona al estado `STATE_SAD`.
+```javascript
+elif current_state == STATE_HAPPY:
+        if button_a.was_pressed():
+            # Acciones para el evento
+            display.show(Image.SAD)
+            # Acciones de entrada para el siguiente estado
+            start_time = utime.ticks_ms()
+            interval = SAD_INTERVAL
+            current_state = STATE_SAD
+```
+Y carga como se esperaba.
+
+- Vector de prueba 03
+  
+Vamos a verificar la transicion por tiempo de `STATE_SAD` a `STATE_SMILE`, y la condicion con la que inicia es el estado `STATE_SAD`, `start_time = t0` y el tiempo acyual `t > t0 + interval`, el evento que se espera es que es la evaluacion de `utime.ticks_diff(utime.ticks_ms(), start_time) > interval` que se cumple en este caso, los resultados que se esperan son que se muestre la imagen de smile, se actualize el tiempo para que comience otra vez y se establezca el intervalo de del estado smile, y transiciona al estado `STATE_SMILE`.
+```javascript
+current_state = STATE_SAD
+        if utime.ticks_diff(utime.ticks_ms(), start_time) > interval:
+            # Acciones para el evento
+            display.show(Image.SMILE)
+            # Acciones de entrada para el siguiente estado
+            start_time = utime.ticks_ms()
+            interval = SMILE_INTERVAL
+            current_state = STATE_SMILE
+```
+y se logro lo que se esperaba de esta parte del programa.
+
+
 
