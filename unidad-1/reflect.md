@@ -37,4 +37,9 @@ Parte 2: reflexión sobre tu proceso (Metacognición)
 
 8.Al inicio de la unidad te pregunté: “¿Este curso para qué me sirve?”. Después de experimentar y construir tu primer prototipo, ¿Cómo ha cambiado o se ha vuelto más concreta tu respuesta a esa pregunta?
 
+pensaba que me ayudaría a entender cómo funcionan algunos sistemas físicos y a experimentar con ellos.
+Ahora, después de construir mi primer prototipo, la respuesta es mucho más concreta: este curso me sirve para aprender a integrar sensores y lógica de programación para crear sistemas que reaccionan e interactúan con su entorno.
+Entendí que no se trata solo de teoría, sino de poner en práctica conceptos físicos y tecnológicos para desarrollar algo tangible que responda a una necesidad o a una idea creativa.
+
 9.El tutorial de la Actividad 05 te llevó paso a paso. ¿Cómo te sentiste con ese método de aprendizaje? ¿Te dio seguridad o preferirías haberlo intentado por tu cuenta desde el principio?
+
