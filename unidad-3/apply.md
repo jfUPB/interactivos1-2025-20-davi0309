@@ -2,17 +2,19 @@
 
 
 ## 🛠 Fase: Apply
-Codigo funcional sin PASSWORD.
+### Actividad 06
+Codigo funcional de la bomba 2.0 en p5.js
 ```js
+
 
 
 let validChars = "ABST";
 
 
 let count = 20;
-let PASSWORD = ["A", "B", "C"];
+let PASSWORD = ["A", "B", "A"];
 let llave = [" ", " ", " "];
-let KeyIndex = 0;
+let keyIndex = 0;
 let State = "CONFIG";
 
 
@@ -83,6 +85,39 @@ function BombTask(keyValue) {
       State = "ARMED";
     } 
   }
+  else if (State === "ARMED"){
+    if (keyValue === "A" || keyValue === "B") {
+      llave[keyIndex] = keyValue;
+      keyIndex++;
+    }
+  }
+  if (keyIndex === llave.length){
+    let passIsOk = true
+    for (let i = 0; i < llave.length; i++){
+      if(llave[i] !== PASSWORD[i] ){
+        passIsOk = false
+        break;
+      }
+    }
+    if (passIsOk === true){
+      count = 20;
+      keyIndex = 0;
+      State = "CONFIG";
+    }
+    else{
+      keyIndex = 0;
+    }
+  }
+  else if (State === "EXPLODED") {
+    if (keyValue === "T") {
+      count = 20;
+      startTime = millis();
+      State = "CONFIG";
+    }
+  }
 }
 
+
+
 ```
+
