@@ -115,18 +115,18 @@ let microBitBState = false;
 let prevmicroBitAState = false;
 let prevmicroBitBState = false;
 
-// --- Estados de la app ---
+
 const STATES = {
   WAIT_MICROBIT_CONNECTION: "WAIT_MICROBIT_CONNECTION",
   RUNNING: "RUNNING",
 };
 let appState = STATES.WAIT_MICROBIT_CONNECTION;
 
-// --- Imagenes cargadas (ejemplo lineModule) ---
 
 
 
-// --- Clase Agent ---
+
+
 function Agent() {
   this.p = createVector(random(width), random(height));
   this.pOld = this.p.copy();
@@ -165,24 +165,24 @@ function Agent() {
   };
 }
 
-// --- Setup principal ---
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(255);
 
-  // Inicializar agentes
+
   for (let i = 0; i < agentCount; i++) {
     agents[i] = new Agent();
   }
 
-  // Inicializar puerto serial
+ 
   port = createSerial();
   connectBtn = createButton("Connect to micro:bit");
   connectBtn.position(10, 10);
   connectBtn.mousePressed(connectBtnClick);
 }
 
-// Aqui vamos a crear el boton para conectarnos con elmicrobit.
+// Aqui vamos a crear el boton para conectarnos con el microbit.
 function connectBtnClick() {
   if (!port.opened()) {
     port.open("MicroPython", 115200);
@@ -192,7 +192,7 @@ function connectBtnClick() {
   }
 }
 
-// --- Draw ---
+
 function draw() {
   if (!port.opened()) {
     connectBtn.html("Connect to micro:bit");
@@ -217,9 +217,10 @@ function draw() {
           microBitAState = values[2].toLowerCase() === "true";
           microBitBState = values[3].toLowerCase() === "true";
 
-          // --- Mapear a parámetros ---
+          
           noiseScale = map(microBitX, -1023, 1023, 100, 800);
           noiseStrength = map(microBitY, -1023, 1023, 1, 30);
+
           updateButtonStates(microBitAState, microBitBState);
         } else {
           print("No se están recibiendo 4 datos del micro:bit");
@@ -228,9 +229,9 @@ function draw() {
     }
   }
 function updateButtonStates(newAState, newBState) {
-  
+  // Generar eventos de keypressed
   if (newAState === false && prevmicroBitAState === true) {
-    
+   
     const newNoiseSeed = floor(random(10000));
     noiseSeed(newNoiseSeed);
 
@@ -238,7 +239,7 @@ function updateButtonStates(newAState, newBState) {
     print("A pressed");
   }
 
-  
+  // Generar eventos de key released
   if (newBState === false && prevmicroBitBState === true) {
    
     saveCanvas('ImagenArte', 'png');
@@ -247,12 +248,12 @@ function updateButtonStates(newAState, newBState) {
     print("B released");
   }
 
-  // Actualizar estados previos
+ 
   prevmicroBitAState = newAState;
   prevmicroBitBState = newBState;
 }
 
-  // --- Visualización ---
+  
   fill(255, overlayAlpha);
   noStroke();
   rect(0, 0, width, height);
@@ -270,6 +271,7 @@ function updateButtonStates(newAState, newBState) {
 ## Video
 
 [Video demostratativo](URL)
+
 
 
 
