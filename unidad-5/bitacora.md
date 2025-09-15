@@ -42,7 +42,21 @@ Aqui es donde sucede la magia y lee la linea hasta llegar a \n y divide la linea
 
 ## Dudas o preguntas que se me generaron o surgieron en el proceso:
 
-**¿cual es la funcionalidad de push() y pop() en el programa que estamos manejando?**
+### **¿cual es la funcionalidad de push() y pop() en el programa que estamos manejando?**
+
+Lo que hace `push()` es que me guarda el estado actual de la rotacion, las cordenadas, los colores y los estilos de pencil. `pop()` por otra parte restaura ese estado al ultimo que guardo `push()`, osea que al terminar de dibujar osea dejar de presionar la tecla A vuelve al estado de rotacion y coordenadas original, pero ¿que pasaria si no tenemos el push() y el pop()?, pues lo que pasaria es que todo lo que dibujara despues quedaria rotado y afectaria mi dibujo en pantalla.
+
+### **¿Qué pasaría si los datos no llegaran en el orden correcto?**
+Si se truecan los valores de X y Y el dibujo saldria distorsionado y no cumpliria con lo que el usuario le esta entregando, si son todos los datos directamente creeria que no se dibujaria por que no se actualizaria correctamente ya que el programa me esta esperando los datos en un orden antes propuesto.
+
+### **¿Qué ventajas ofrece usar un protocolo de envío de 4 valores separados por comas en lugar de mandar cada valor en mensajes independientes?**
+
+La ventaja seria que mi p5.js esta leyendo solo un mensaje por asi decirlo, que los 4 datos se estan recibiendo en un solo mensaje y esto me ayuda a que no se lleguen a perder datos o lleguen de manera desincronizada.
+
+### **¿Cómo cambia la experiencia del usuario al imponer un estado de espera (WAIT_MICROBIT_CONNECTION) antes de poder dibujar?**
+
+
+
 
 
 
