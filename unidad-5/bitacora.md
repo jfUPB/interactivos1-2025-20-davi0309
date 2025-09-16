@@ -53,7 +53,30 @@ Si se truecan los valores de X y Y el dibujo saldria distorsionado y no cumpliri
 
 La ventaja seria que mi p5.js esta leyendo solo un mensaje por asi decirlo, que los 4 datos se estan recibiendo en un solo mensaje y esto me ayuda a que no se lleguen a perder datos o lleguen de manera desincronizada.
 
-### **¿Cómo cambia la experiencia del usuario al imponer un estado de espera (WAIT_MICROBIT_CONNECTION) antes de poder dibujar?**
+### Experimentación
+Que pasaria si enviamos los datos en un orden diferente sera que `data = "{},{},{},{}\n".format(aState, yValue, xValue,bState) ` para saber si otro sensor puede sustituir la funcion por ejemplo del boton `a` o solo no  se dibujan los valores ya que no entran por el tipo de variable entre botones y sensores.
+Resuktado:
+Efectivamente el programa no dibuja ya que el sensor X no puede sustituir la funcionalidad del boton A, soguen enviandoce cuatro datos pero al no estar en el orden no hacen nada.
+
+### Analisis y reflexion
+
+Al inicio P5 espero un evento, luego la conexion se hace mediante el puerto serial y le damos una velocidad fija de entrada, y se limpia ps como lo que se estaba enviando antes, muy importantye si no queremos que se dibuje basura. Luego llegan una cadena de bytes que se transforman a texto y se parten en 4 valores, ya luego es interpretado por posicion en X, posicion en Y, boton A y boton B. Y la interaccion que tiene el usuario es mover el microbit para dibujar presionar A para dibujar y soltar B para cambiar de color.
+
+
+## Actividad 02
+Evidencia:
+<img width="1249" height="391" alt="imagen" src="https://github.com/user-attachments/assets/51455107-ccff-43b2-9cd8-ae8c4e9a48d8" />
+
+¿Por qué se ve este resultado?
+
+
+
+<img width="1271" height="403" alt="imagen" src="https://github.com/user-attachments/assets/697ce6d0-fc79-4def-a4de-b289c3ff42d7" />
+
+
+<img width="1267" height="514" alt="imagen" src="https://github.com/user-attachments/assets/fd70e752-3796-43d7-87e8-da941b914a01" />
+
+<img width="1252" height="519" alt="imagen" src="https://github.com/user-attachments/assets/7df6294b-be63-4672-868f-a9999ee922b1" />
 
 
 
