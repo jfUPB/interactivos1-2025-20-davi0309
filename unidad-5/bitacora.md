@@ -437,6 +437,8 @@ Y luego podriamos ir colocando en las variables que teniamos en el p5 los datos 
 
 
 
+## NOTA:
+Mi nota seria de 4.1 ya que se ve una buena indagacion en los puntos 1 y 2 pero no se realiza la actividad 03, se logra experimentar para llegar a conclusiones que nos facilitan el entendimiento del programa y se reflexiona al final en como funciona el programa, se realiza la parte logica del apply, pero nose realiza el codigo, de resto se entiende que se envia que se tiene que cambiar y como se estan enviando los datos.
 
 
 
