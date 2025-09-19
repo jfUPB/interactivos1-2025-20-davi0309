@@ -64,19 +64,96 @@ Al inicio P5 espero un evento, luego la conexion se hace mediante el puerto seri
 
 
 ## Actividad 02
+
+
 Evidencia:
 <img width="1249" height="391" alt="imagen" src="https://github.com/user-attachments/assets/51455107-ccff-43b2-9cd8-ae8c4e9a48d8" />
 
 ¿Por qué se ve este resultado?
 
+Lo que pasa es que cuando el SerialTerminal se configura para mostrar `Texto`, los datos binarios que recibe se interpretan como si fueran caracteres ASCII pero es que estos datos no fueron generados para ser leídos como texto ya que el programa intenta convertir secuencias de 0s y 1s en letras o ps algo que podamos leer pero al no tener una referencia clara en la tabla ASCII para esas combinaciones de bits, el resultado son caracteres de pregunta, osea que no lo puede transformar o traducir.
+
+¿Cómo se verían esos números en el formato `>2h2B`?
+
+Se ve uan relacion porque en modo Hex, cada byte se muestra como un valor entre 00 y 7F. Esto corresponde exactamente al resultado de empaquetar los valores en binario osea la linea que tenemos de `data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))` que tambien define el orden y tamaño de cada valor. Lo que se ve en Hex como lo que la computadora entiende.
+
+<img width="927" height="628" alt="imagen" src="https://github.com/user-attachments/assets/d1504896-0ed5-4061-80c1-8bc1faf30b00" />
+
+
+¿Qué ventajas y desventajas ves en usar un formato binario en lugar de texto en ASCII?
+
+Las ventajas que tiene el binario serian que ps los programas no tendran que traducir lo que se len envia o lo que les llega ya que procesan directamente en binarios y ps el microbit tambien, y tambien tiene mayor rendimiento cuando enviamos muchos datos, las desventajas seria que es muy dificil de leer para los humanos, y ps que se necesita saber como se van a traducir los datos como unos tipos de pasos de como llegara la informacion para procesarla y traducirla.
+
+**Ahora cambiamos el codigo existemte por este**
+```py
+# Imports go at the top
+from microbit import *
+import struct
+uart.init(115200)
+display.set_pixel(0,0,9)
+
+while True:
+    if accelerometer.was_gesture('shake'):
+        xValue = accelerometer.get_x()
+        yValue = accelerometer.get_y()
+        aState = button_a.is_pressed()
+        bState = button_b.is_pressed()
+        data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+        uart.write(data)
+```
 
 
 <img width="1271" height="403" alt="imagen" src="https://github.com/user-attachments/assets/697ce6d0-fc79-4def-a4de-b289c3ff42d7" />
 
 
+
+¿Cuántos bytes se están enviando por mensaje? ¿Cómo se relaciona esto con el formato '>2h2B'? ¿Qué significa cada uno de los bytes que se envían?
+
+En total se estan enviando 2 tipos de datos 2 int t 2 bool por lo que consultando en internet los enteros valen 2 bytes y los booleanos 1 byte por lo tanto por paquete se envian 6 bytes en total, y se envian de esta manera:
+- XValue: 2 bytes que es un entero
+- YValue: 2 bytes que es un entero
+- aState: 1 byte es un booleano
+- bState: 1 byte es un booleano
+
+¿Cómo se verían esos números en el formato '>2h2B'?
+
+Los enteros de 16 bits (h) usan complemento a dos.
+Ejemplo: -1 se vería como FF FF en Hex.
+Ejemplo: -200 se vería como FF 38.
+Esto significa que el formato conserva el signo, y tanto números positivos como negativos se pueden representar correctamente.
+
+
 <img width="1267" height="514" alt="imagen" src="https://github.com/user-attachments/assets/fd70e752-3796-43d7-87e8-da941b914a01" />
 
+
+**Ahora cambiamos el codigo existemte por este**
+```py
+# Imports go at the top
+from microbit import *
+import struct
+uart.init(115200)
+display.set_pixel(0,0,9)
+
+while True:
+    if accelerometer.was_gesture('shake'):
+        xValue = accelerometer.get_x()
+        yValue = accelerometer.get_y()
+        aState = button_a.is_pressed()
+        bState = button_b.is_pressed()
+        data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+        uart.write(data)
+        uart.write("ASCII:\n")
+        data = "{},{},{},{}\n".format(xValue, yValue, aState,bState)
+        uart.write(data)
+```
+
+
+
 <img width="1252" height="519" alt="imagen" src="https://github.com/user-attachments/assets/7df6294b-be63-4672-868f-a9999ee922b1" />
+
+¿Qué diferencias ves entre los datos en ASCII y en binario? ¿Qué ventajas y desventajas ves en usar un formato binario en lugar de texto en ASCII? ¿Qué ventajas y desventajas ves en usar un formato ASCII en lugar de binario?
+
+Como vemos en las imagenes en ASCII se ve algo asi (-45,1023,1,0) y en binario algo asi (FF D3 03 FF 01 00) por que es en hex, las ventajas de ASCII es que podemos leerlo de manera facil, las desventajas son que es mas lento y pesado, las ventajas del binario es que es ams compacto y facil de entender para la maquina osea consume menos recursos, las desventajas es que necesita un protocolo para entenderse y es ilegible para humanos.
 
 
 
