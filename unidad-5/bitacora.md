@@ -216,7 +216,229 @@ while True:
 Y el codigo que vamos a modificar para que lea estos datos es este:
 
 ```js
+'use strict';
+
+let agents = [];
+let agentCount = 4000;
+
+
+let noiseScale = 300;
+let noiseStrength = 10;
+let overlayAlpha = 10;
+let agentAlpha = 90;
+let strokeWidth = 0.3;
+let drawMode = 1;
+
+
+let port;
+let connectBtn;
+let connectionInitialized = false;
+let microBitConnected = false;
+let microBitX = 0;
+let microBitY = 0;
+let microBitAState = false;
+let microBitBState = false;
+let prevmicroBitAState = false;
+let prevmicroBitBState = false;
+
+
+const STATES = {
+  WAIT_MICROBIT_CONNECTION: "WAIT_MICROBIT_CONNECTION",
+  RUNNING: "RUNNING",
+};
+let appState = STATES.WAIT_MICROBIT_CONNECTION;
+
+
+
+
+
+
+function Agent() {
+  this.p = createVector(random(width), random(height));
+  this.pOld = this.p.copy();
+  this.stepSize = random(1, 5);
+
+  this.update1 = function(noiseScale, noiseStrength, strokeWidth) {
+    let angle = noise(this.p.x / noiseScale, this.p.y / noiseScale) * noiseStrength;
+    this.p.x += cos(angle) * this.stepSize;
+    this.p.y += sin(angle) * this.stepSize;
+
+    strokeWeight(strokeWidth);
+    line(this.pOld.x, this.pOld.y, this.p.x, this.p.y);
+
+    this.pOld.set(this.p);
+
+    if (this.p.x < 0 || this.p.x > width || this.p.y < 0 || this.p.y > height) {
+      this.p.set(random(width), random(height));
+      this.pOld.set(this.p);
+    }
+  };
+
+  this.update2 = function(noiseScale, noiseStrength, strokeWidth) {
+    let angle = noise(this.p.x / noiseScale, this.p.y / noiseScale, frameCount * 0.01) * noiseStrength;
+    this.p.x += cos(angle) * this.stepSize;
+    this.p.y += sin(angle) * this.stepSize;
+
+    strokeWeight(strokeWidth);
+    line(this.pOld.x, this.pOld.y, this.p.x, this.p.y);
+
+    this.pOld.set(this.p);
+
+    if (this.p.x < 0 || this.p.x > width || this.p.y < 0 || this.p.y > height) {
+      this.p.set(random(width), random(height));
+      this.pOld.set(this.p);
+    }
+  };
+}
+
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(255);
+
+
+  for (let i = 0; i < agentCount; i++) {
+    agents[i] = new Agent();
+  }
+
+ 
+  port = createSerial();
+  connectBtn = createButton("Connect to micro:bit");
+  connectBtn.position(10, 10);
+  connectBtn.mousePressed(connectBtnClick);
+}
+
+// Aqui vamos a crear el boton para conectarnos con el microbit.
+function connectBtnClick() {
+  if (!port.opened()) {
+    port.open("MicroPython", 115200);
+    connectionInitialized = false;
+  } else {
+    port.close();
+  }
+}
+
+
+function draw() {
+  if (!port.opened()) {
+    connectBtn.html("Connect to micro:bit");
+    microBitConnected = false;
+  } else {
+    microBitConnected = true;
+    connectBtn.html("Disconnect");
+
+    if (port.opened() && !connectionInitialized) {
+      port.clear();
+      connectionInitialized = true;
+    }
+
+    if (port.availableBytes() > 0) {
+      let data = port.readUntil("\n");
+      if (data) {
+        data = data.trim();
+        let values = data.split(",");
+        if (values.length == 4) {
+          microBitX = int(values[0]) + windowWidth / 2;
+          microBitY = int(values[1]) + windowHeight / 2;
+          microBitAState = values[2].toLowerCase() === "true";
+          microBitBState = values[3].toLowerCase() === "true";
+
+          
+          noiseScale = map(microBitX, -1023, 1023, 100, 800);
+          noiseStrength = map(microBitY, -1023, 1023, 1, 30);
+
+          updateButtonStates(microBitAState, microBitBState);
+        } else {
+          print("No se están recibiendo 4 datos del micro:bit");
+        }
+      }
+    }
+  }
+function updateButtonStates(newAState, newBState) {
+  // Generar eventos de keypressed
+  if (newAState === false && prevmicroBitAState === true) {
+   
+    const newNoiseSeed = floor(random(10000));
+    noiseSeed(newNoiseSeed);
+
+
+    print("A pressed");
+  }
+
+  // Generar eventos de key released
+  if (newBState === false && prevmicroBitBState === true) {
+   
+    saveCanvas('ImagenArte', 'png');
+
+
+    print("B released");
+  }
+
+ 
+  prevmicroBitAState = newAState;
+  prevmicroBitBState = newBState;
+}
+
+  
+  fill(255, overlayAlpha);
+  noStroke();
+  rect(0, 0, width, height);
+
+  stroke(0, agentAlpha);
+  for (let i = 0; i < agentCount; i++) {
+    if (drawMode == 1) agents[i].update1(noiseScale, noiseStrength, strokeWidth);
+    else agents[i].update2(noiseScale, noiseStrength, strokeWidth);
+  }
+}
 ```
+
+Entonces primero entendamos que estamos enviando desde el microbit para saber que tenemos que programar en el p5
+
+Por ejemplo esta linea de codigo:
+```py
+data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+```
+
+me da un formato, osea me dice se van a organizar de mayor a menos y primero van a entrar dos valores de 16 bits cada uno (xValu, yValue), y otros dos valores que son de 8 bits cada uno (aState y b State) y este paquete tiene 6 bytes como habiamos visto anteriormente.
+
+El `checksum = sum(data) % 256` lo que hace es que me reviza por asi decirlo si me los bytes completos del paquete, osea si sí me llego toda la informacion necesaria, y aqui es donde podemos detectar si uno de los datos no llego o se daño en el viaje.
+
+En esta linea es como si ya estuvieramos cerrando el paquete y cellandolo `packet = b'\xAA' + data + bytes([checksum])` ya que aqui me crea un byte de donde comienza una nueva linea por asi decirlo, luego me da mi data que son los 6 bytes que ya habiamos visto antes y me da el ultimo byte que es el de validación, entonces mi paquete completo me tiene que quedar con 8 bytes.
+
+Y ya mi paquete es enviado por esta linea `uart.write(packet)`.
+
+Bueno, supongo que la parte del codigo que tenemos que cambiar es esta:
+```js
+if (port.availableBytes() > 0) {
+      let data = port.readUntil("\n");
+      if (data) {
+        data = data.trim();
+        let values = data.split(",");
+        if (values.length == 4) {
+          microBitX = int(values[0]) + windowWidth / 2;
+          microBitY = int(values[1]) + windowHeight / 2;
+          microBitAState = values[2].toLowerCase() === "true";
+          microBitBState = values[3].toLowerCase() === "true";
+
+          
+          noiseScale = map(microBitX, -1023, 1023, 100, 800);
+          noiseStrength = map(microBitY, -1023, 1023, 1, 30);
+
+          updateButtonStates(microBitAState, microBitBState);
+        } else {
+          print("No se están recibiendo 4 datos del micro:bit");
+        }
+      }
+    }
+```
+
+Y ahora el `(port.availableBytes() > 0)` deberia ser `>= 8` ya que esa es la cantidad de bytes que vamos a recibir. Ademas el `readUntil`ya no nos serviria por que no estamos leyendo texto, se cambiaria por algo como leer 8 bytes del paquete.
+Y luego podriamos ir colocando en las variables que teniamos en el p5 los datos segun las posiciones de los bytes como un arreglo pero esta vez lo haceos desde antes por que primero tenemos que inicializar estas y ps siempre validando con checksum.
+
+
+
+
+
 
 
 
