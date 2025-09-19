@@ -35,6 +35,10 @@ if (port.availableBytes() > 0) {
 Aqui es donde sucede la magia y lee la linea hasta llegar a \n y divide la linea en cuatro valores (de esto se encarga let values = data.split(",");) y luego si son 4 valores los asigna como lo explicamos arriba.
 **¿Cómo se generan los eventos A pressed y B released que se generan en p5.js a partir de los datos que envía el micro:bit?**
 
+- `A pressed` ocurre cuando el valor de A cambia de false a true.
+
+- `B released` ocurre cuando el valor de B cambia de true a false.
+
 **Capturas de pantalla de los algunos dibujos que hayas hecho con el sketch.**
 
 
@@ -55,7 +59,7 @@ La ventaja seria que mi p5.js esta leyendo solo un mensaje por asi decirlo, que 
 
 ### Experimentación
 Que pasaria si enviamos los datos en un orden diferente sera que `data = "{},{},{},{}\n".format(aState, yValue, xValue,bState) ` para saber si otro sensor puede sustituir la funcion por ejemplo del boton `a` o solo no  se dibujan los valores ya que no entran por el tipo de variable entre botones y sensores.
-Resuktado:
+Resultado:
 Efectivamente el programa no dibuja ya que el sensor X no puede sustituir la funcionalidad del boton A, soguen enviandoce cuatro datos pero al no estar en el orden no hacen nada.
 
 ### Analisis y reflexion
@@ -154,6 +158,67 @@ while True:
 ¿Qué diferencias ves entre los datos en ASCII y en binario? ¿Qué ventajas y desventajas ves en usar un formato binario en lugar de texto en ASCII? ¿Qué ventajas y desventajas ves en usar un formato ASCII en lugar de binario?
 
 Como vemos en las imagenes en ASCII se ve algo asi (-45,1023,1,0) y en binario algo asi (FF D3 03 FF 01 00) por que es en hex, las ventajas de ASCII es que podemos leerlo de manera facil, las desventajas son que es mas lento y pesado, las ventajas del binario es que es ams compacto y facil de entender para la maquina osea consume menos recursos, las desventajas es que necesita un protocolo para entenderse y es ilegible para humanos.
+
+
+## Dudas o preguntas que se me generaron o surgieron en el proceso:
+
+¿En qué escenarios es preferible usar ASCII aunque sea menos eficiente?
+
+¿Qué pasaría si quisiéramos enviar datos tipo del microbit como mas botones o mas sensores? ¿Como quedaria el codigo si hacemos estas modificaciones y cuanto pesaria en bytes?
+
+¿Todos los dispositivos sirven mas con binario o existen algunos que sean predeterminados como ASCII?
+
+¿El orden de lo bytes como pueden influir en como se traducen los datos?
+
+
+### Experimentación
+Experimento: 
+invertir el endianness ('<2h2B' en lugar de '>2h2B'), supondria que aparecerian los mismos numeros pero en orden diferente.
+
+Resultado: 
+entendemos despues que el terminal que antes solo mostraba los bytes en el orden en que los recibe, mostrará los valores de xValue y yValue con sus bytes intercambiados pero esto podria dar muchos errores ya que los datos tienen que estar ordenados o coordenados en como se envian y como se reciben.
+
+
+Experimento: 
+Podremos enviar solo ASCII y luego solo binario y comparar el tiempo de respuesta o fps en que carga el programa.
+
+Resultado:
+Podemos darnos cuenta que cuando son muchos datos la eficiencia del binario es notable.
+
+### Analisis y reflexion
+
+La comunicacion serial envia datos, y estos llegan uno tras otro, lo que no contienen un orden estricto, para esto nos sirve el protocoloo ps el traductor, que define unas reglas de separacion y de final y de orden de entrada, osea el microbit envia datos, el protocolo binario los organiza y el serialTerminal se encarga de mostrarmelos.
+
+
+## Apply
+
+Lo que queremos hacer aqui es que nuestro codigo que leia en procolo de texto ahora lea en binario, para esto vamos a poner este codigo en el microbit para que se puedan enviar los datos en protocolo binario:
+
+**Codigo microbit** 
+```py
+from microbit import *
+import struct
+
+uart.init(115200)
+display.set_pixel(0, 0, 9)
+
+while True:
+    xValue = accelerometer.get_x()
+    yValue = accelerometer.get_y()
+    aState = button_a.is_pressed()
+    bState = button_b.is_pressed()
+    data = struct.pack('>2h2B', xValue, yValue, int(aState), int(bState))
+    checksum = sum(data) % 256
+    packet = b'\xAA' + data + bytes([checksum])
+    uart.write(packet)
+    sleep(100)
+```
+Y el codigo que vamos a modificar para que lea estos datos es este:
+
+```js
+```
+
+
 
 
 
