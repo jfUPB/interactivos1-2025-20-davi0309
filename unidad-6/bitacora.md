@@ -38,13 +38,17 @@ Indica que se conecto con el server, y que esta `listening` osea como esperando 
 
 ### **Describe lo que ves inicialmente en page1 y page2 en tu navegador.**
 
+Lo primero que veo es un especie de cuadrado que dice "sincronizando datos" cuando abro la primera pestaña, cuando abro las dos pestañas se dibujan dos circulos cada uno en una de las pestañas dibujados solo en el centro de la imagen, y tienen una linea que se conecta a cada uno de ellos, por medio de una coneccion. 
 
 ### **¿Qué mensajes aparecieron en la terminal del servidor cuando abriste page1 y page2?**
+
+<img width="682" height="315" alt="imagen" src="https://github.com/user-attachments/assets/00136f2f-c53e-461f-adfe-6228c854b11f" />
 
 
 Describe qué sucede en ambas páginas del navegador cuando mueves una de las ventanas.
 
 ### **¿Cambia algo visualmente? ¿Qué mensajes aparecen (si los hay) en la consola del navegador (usualmente accesible con F12 -> Pestaña Consola) y en la terminal del servidor?**
+
 
 
 
