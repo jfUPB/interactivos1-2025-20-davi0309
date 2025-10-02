@@ -49,6 +49,34 @@ Describe qué sucede en ambas páginas del navegador cuando mueves una de las ve
 
 ### **¿Cambia algo visualmente? ¿Qué mensajes aparecen (si los hay) en la consola del navegador (usualmente accesible con F12 -> Pestaña Consola) y en la terminal del servidor?**
 
+Lo primero que podemos observar es como en la pestaña no se encuentran aun datos  y aparece `èsperando conexion a otra ventana`, se queda aqui hasta que reciba la señal de cuando se abre la `page2` para poder conectarse
+
+<img width="1919" height="1021" alt="imagen" src="https://github.com/user-attachments/assets/29e43691-910b-49a4-93fc-3f8e2ddd4b3f" />
+
+En esta imagen ya podemos ver como se conectan efectivamente las dos pestañas o paginas generando esta imagen con el cable hacia el centro de el otro, cada pagina le manda al servidor la posicion en la que esta y la ptra la ejecuta y la lee para generar esta linea ya que cada pagina dibuja estos dos circulos.
+
+
+<img width="1919" height="1011" alt="imagen" src="https://github.com/user-attachments/assets/07809528-448d-4b6e-bcc1-e17e51f23cb4" />
+
+
+Y esto es lo que me aparece en la consola:
+
+
+<img width="1502" height="992" alt="imagen" src="https://github.com/user-attachments/assets/98f764e2-d46e-434d-bc82-c389a08f4101" />
+
+# Actividad 02
+
+## **Piensa en cómo te conectas a Internet en casa o en la Universidad. ¿Usas Wi-Fi? ¿Un cable de red? Eso es simplemente tu “rampa de acceso” a la gran red de carreteras. ¿Qué pasaría si esa rampa se corta? Anota tus ideas.**
+
+En mi casa me conecto a Internet mediante el Wi-Fi, 
+
+
+
+
+
+
+
+
 
 
 
