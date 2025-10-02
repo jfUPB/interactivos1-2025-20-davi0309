@@ -279,6 +279,18 @@ microBitX: 127 microBitY: -42 microBitAState: true microBitBState: true
 - Soltando B en el micro.bit: B released
 - Si los paquetes llegan con error en checksum: Checksum error in packet
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# Nota
+
+| Criterio | Calificación | Justificación |
+| --- | --- | --- |
+| 1.**Profundidad de la indagación** | 4.7 / 5.0 | Comparé ASCII vs binario, expliqué framing, checksum y `struct.pack`. Mostré por qué antes necesitábamos delimitadores y ahora no. Faltó ampliar escenarios de uso . Podría mejorar con más escenarios de aplicación o ver lo del rendimiento. |
+| **2. Calidad de la experimentación** | 4.3 / 5.0 | Probé cambios de orden. Funcionó el checksum y se vio el error de desface en consola. Faltó más medición y variaciones por que algunos eran bastante simples. |
+| **3. Análisis y reflexión** | 4.6 / 5.0 | Analicé errores de sincronización y el rol del header y checksum. Expliqué bien el desfase en los paquetes y lo que aparece en consola. |
+| **4. Apropiación y articulación de conceptos** | 4.5 / 5.0 | Usé conceptos técnicos (framing, checksum, `struct.pack`, `DataView`) y mostré cómo se conectan. La verdad pude explicarlos mejor con ejemplos visuales. |
+
+**La nota final es:** 4.5 me sirvio mucho realizar el analisis y reflexion y las preguntas de indagacion aunque no estuve del todo bien con los experimentos que queria plantear.
 
 
 
