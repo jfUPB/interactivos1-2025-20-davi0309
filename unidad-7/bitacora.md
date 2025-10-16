@@ -139,6 +139,34 @@ El mensaje "Received message =>" incluye las coordenadas del toque que realiza e
 
 Realiza un diagrama donde muestres el flujo completo de datos y eventos entre los tres componentes: móvil, servidor y escritorio. Puedes ilustrar con un ejemplo de coordenadas táctiles (x, y) y cómo viajan a través del sistema.
 
+<img width="917" height="611" alt="imagen" src="https://github.com/user-attachments/assets/72bdab14-8612-48bf-9394-e60625096e54" />
+
+
+### Paso a paso
+
+1. El usuario toca en el celular por ejemplo una direccion en pantalla asi `x=150, y=300`.
+2. `touchMoved()` envía `type:'touch', x:150, y:300` al servidor con `socket.emit('message', touchData)`.
+3. El servidor recibe el evento con el `socked.on` y lo envia con el `socket.broadcast.emit('message', message);`a los otros clientes por medio de esta funcion:
+```cpp
+socket.on('message', (message) => {
+    console.log('Received message =>', message);
+    socket.broadcast.emit('message', message);
+});
+
+```
+5. De esta manera muestra el mensaje y lo difunde a los otros clientes.
+6. El escritorio recibe los datos con el `socket.on('message', (data))` por medio de esta funcion:
+```cpp
+socket.on('message', (data) => {
+    if (data.type === 'touch') {
+        circleX = data.x;
+        circleY = data.y;
+    }
+});
+
+```
+7. Se mueve ek circula a la direccion (150, 300) en el canva.
+8. el proceso se repite con cada touch o movimiento que hagamos con el dedo
 
 
 
