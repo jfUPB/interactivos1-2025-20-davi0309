@@ -78,7 +78,70 @@ Si lo muevo es asi el resultado:
 
 **¿Cuál es la función principal de express.static(‘public’) en este servidor? ¿Cómo se compara con el uso de app.get(‘/ruta’, …) del servidor de la Unidad 6?**
 
-Funciona para que las direcciones queden enviadas hacia la carpeta public y no tener que generar rutas especificas para cada parte de la carpeta, lo que permite que si se piden datos els ervidor se pa donde buscarya que el control es automatico, en cambio si usamos el app.get(‘/ruta’, …), tenemos o toca definir las rutas especificas y colcoa mas codigo por cada cosa que se pida en las carpetas.
+Funciona para que las direcciones queden enviadas hacia la carpeta public y no tener que generar rutas especificas para cada parte de la carpeta, lo que permite que si se piden datos el servidor sepa donde buscarla ya que el control es automatico, en cambio si usamos el app.get(‘/ruta’, …), tenemos o toca definir las rutas especificas y colocar mas codigo por cada cosa que se pida en las carpetas. En la unidad anterior cada página hacía la solicitud de las bibliotecas necesarias que estaban ubicadas en la carpeta public.
+
+**Explica detalladamente el flujo de un mensaje táctil: ¿Qué evento lo envía desde el móvil? ¿Qué evento lo recibe el servidor? ¿Qué hace el servidor con él? ¿Qué evento lo envía el servidor al escritorio? ¿Por qué se usa socket.broadcast.emit en lugar de io.emit o socket.emit en este caso?**
+
+Ps la funcion que se encarga de enviar desde ek movil es esta funcion que se encuentra en `/public/mobile`: 
+```cpp
+function touchMoved() {
+    if (socket && socket.connected) { 
+        let dx = abs(mouseX - lastTouchX);
+        let dy = abs(mouseY - lastTouchY);
+
+        if (dx > threshold || dy > threshold || lastTouchX === null) {
+            let touchData = {
+                type: 'touch',
+                x: mouseX,
+                y: mouseY
+            };
+            socket.emit('message', touchData);
+
+            lastTouchX = mouseX;
+            lastTouchY = mouseY;
+        }
+    }
+    return false;
+}
+```
+esta funcion es la encargada de enviar la informacion si el usuario toca la pantalla con el dedo o con el mouse, y en el primer if que est este `if (socket && socket.connected)` se verifica si hay una conexion activa, si la hay se corre eso si no, no pasa nada, luego calcula la posicion y la envia por medio de `socket.emit('message', touchData);`.
+
+El evento que recibe del servidor es aqui:
+
+```cpp
+socket.on('message', (message) => {
+        console.log('Received message =>', message);
+        socket.broadcast.emit('message', message);
+    });
+```
+y lo que hace es recibir el mensaje, luego lo muestra en la consola y por ultimo con `socket.broadcast.emit('message', message);` reenvia este mensaje a todos los clientes conectados.
+
+**Si conectaras dos computadores de escritorio y un móvil a este servidor, y movieras el dedo en el móvil, ¿Quién recibiría el mensaje retransmitido por el servidor? ¿Por qué?**
+
+Como vimos anterior mente el mensaje se envia a todos los clientes conectados, y ambos se actualizan.
+
+**¿Qué información útil te proporcionan los mensajes console.log en el servidor durante la ejecución?**
+
+El servidor muestra en la consola cuatro tipos de mensajes diferentes: uno indica el puerto de conexión, y los otros tres son respuestas a las acciones de los clientes.
+Cuando un cliente se conecta o se desconecta, el servidor lo notifica con un mensaje específico, pero el registro que más aparece es el "Received message =>".
+Los mensajes en la consola tienen este formato:
+
+```cpp
+Server is listening on http://localhost:3000
+New client connected
+Received message => { type: 'touch', x: 129, y: 213 }
+Client disconnected
+```
+
+El mensaje "Received message =>" incluye las coordenadas del toque que realiza el usuario, las cuales se utilizan para que la ruta /desktop actualice la posición del círculo que aparece en pantalla.
+
+## Actividad 04
+
+Realiza un diagrama donde muestres el flujo completo de datos y eventos entre los tres componentes: móvil, servidor y escritorio. Puedes ilustrar con un ejemplo de coordenadas táctiles (x, y) y cómo viajan a través del sistema.
+
+
+
+
 
 
 
