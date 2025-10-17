@@ -169,6 +169,408 @@ socket.on('message', (data) => {
 8. el proceso se repite con cada touch o movimiento que hagamos con el dedo
 
 
+# Apply actividad 05
+
+Bueno la idea de diseño que tengo es que cuando coloque una cancion se pueda ver una onda como si fuera el ecualizador de una cancion, y que mediante el touch se pueda acelerar o desacelerar la cancion y subir o bajar el pitch que este tenga como que tan grave o aguda es la cancion, ademas tambien planeo agregarle unos circulos que palpiten con el ritmo de los bajos o algo parecido.
+
+> Cuando comence a preguntarle a chat se me ocurrio una idea mientras veia la documentacion de p5 y si uso el sistema de smoke que encontre en un ejemplo y le digo a chat que lo implemente en las bolitas para que si el dedo esta mas abajo de la pantalla este se aumente generando una sensacion de que estan como humito que dejan los circulos al moverse. [link de la documentacion de p5](https://p5js.org/examples/math-and-physics-smoke-particle-system/).
+
+Ahora tambien me gusto agregarle color a la onda y una posicion centrada en el canva ya que lo primero que me paso chat no tenia nada que ver con lo que queria que se viera.
+
+Tambien le dije que cuando moviera el dedo de arriba a abajo cambiara de color la onda
+Esa fue mi idea de diseño.
+
+Ahora lo que pudo lograr gpt con unos cuantos prompts de arreglo y demas para que funcionara debidamente y como se pedia es esto:
+
+<img width="1917" height="896" alt="imagen" src="https://github.com/user-attachments/assets/a56e8cb0-1676-4368-93f2-38164c97415b" />
+
+
+<img width="1910" height="895" alt="imagen" src="https://github.com/user-attachments/assets/dcaab5a8-f1e0-4258-871a-d4bb4a795d74" />
+
+
+
+
+Ahora compartire los codigos:
+
+
+
+### Desktop (sketch) :
+
+
+
+
+```js
+let socket;
+let song;
+let fft;
+let playing = false;
+let colorTone = [255, 0, 0];
+let playbackRate = 1;
+let pitch = 1;
+let particles = [];
+const port = 3000;
+
+function preload() {
+  song = loadSound('song2.mp3');
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(0);
+  fft = new p5.FFT();
+  socket = io();
+
+  socket.on('connect', () => {
+    console.log('Conectado al servidor');
+  });
+
+  socket.on('message', (data) => {
+    if (data && data.type === 'touch') {
+      let normX = data.x / 300;
+      let normY = data.y / 400;
+
+      playbackRate = map(normX, 0, 1, 0.5, 2);
+      song.rate(playbackRate);
+
+      pitch = map(normY, 0, 1, 0.5, 2); // controla transición visual
+
+      if (pitch < 1) {
+        colorTone = [map(pitch, 0.5, 1, 255, 100), 50, 50];
+      } else {
+        colorTone = [50, 100, map(pitch, 1, 2, 100, 255)];
+      }
+    }
+  });
+}
+
+function draw() {
+  background(0, 80);
+
+  if (playing) {
+    let spectrum = fft.analyze();
+    let bass = fft.getEnergy("bass");
+
+    // ----- ONDA CENTRAL -----
+    noFill();
+    stroke(colorTone[0], colorTone[1], colorTone[2]);
+    strokeWeight(2);
+    beginShape();
+    for (let i = 0; i < spectrum.length * 0.9; i += 6) { 
+        let x = map(i, 0, spectrum.length * 0.9, 0, width);
+        let y = height / 2 + map(spectrum[i], 0, 255, 100, -100);
+        curveVertex(x, y);
+    }   
+    endShape();
+
+    // ----- PARTÍCULAS DEL BAJO -----
+    if (bass > 180 && particles.length < 120) {
+      for (let i = 0; i < 6; i++) {
+        particles.push(new Particle(random(width), random(height)));
+      }
+    }
+
+    // Actualizar partículas
+    for (let i = particles.length - 1; i >= 0; i--) {
+      particles[i].update(bass, pitch);
+      particles[i].display(pitch);
+      if (particles[i].alpha <= 0) {
+        particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+function mousePressed() {
+  if (!playing) {
+    song.loop();
+    playing = true;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+// ----- CLASE DE PARTÍCULA -----
+class Particle {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.baseSize = random(3, 6);
+    this.size = this.baseSize;
+    this.alpha = 180;
+    this.life = random(60, 120);
+    this.xSpeed = random(-1, 1);
+    this.ySpeed = random(-1, 1);
+    this.pulsePhase = random(TWO_PI); // para que no palpiten sincronizadas
+  }
+
+  update(bass, pitch) {
+    // Transición de humo suave (de 0 a 1)
+    let smokeIntensity = constrain(map(pitch, 1, 2, 0, 1), 0, 1);
+
+    // Movimiento más flotante cuanto más humo haya
+    this.x += this.xSpeed * (1 + smokeIntensity * 1.3);
+    this.y += this.ySpeed * (1 + smokeIntensity * 1.3);
+
+    // Efecto de “palpitar” amplificado
+    // base en energía de bajo + oscilación rítmica independiente
+    let pulseBase = map(bass, 100, 255, 0.9, 3.5);
+    let pulseWave = sin(frameCount * 0.2 + this.pulsePhase) * 0.3 + 1;
+    this.size = this.baseSize * pulseBase * pulseWave * (1 + smokeIntensity * 0.8);
+
+    // Desvanecerse más lento si hay humo denso (más etéreo)
+    this.alpha -= 1 + smokeIntensity * 0.7;
+    this.life--;
+  }
+
+  display(pitch) {
+    let smokeIntensity = constrain(map(pitch, 1, 2, 0, 1), 0, 1);
+    noStroke();
+
+    // Colores dinámicos tipo disco
+    let t = frameCount * 0.04 + this.x * 0.02 + this.y * 0.02;
+    let r = sin(t) * 127 + 128;
+    let g = sin(t + TWO_PI / 3) * 127 + 128;
+    let b = sin(t + (2 * TWO_PI) / 3) * 127 + 128;
+
+    // Efecto de brillo con humo colorido
+    let diffuse = lerp(0, 20, smokeIntensity);
+    let alphaAdjusted = this.alpha * (1 - smokeIntensity * 0.1);
+
+    // centro brillante
+    fill(r, g, b, alphaAdjusted);
+    ellipse(this.x, this.y, this.size + diffuse);
+
+    // capas de humo suaves
+    if (smokeIntensity > 0.1) {
+      for (let i = 0; i < 3; i++) {
+        fill(r, g, b, alphaAdjusted * 0.25);
+        ellipse(
+          this.x + random(-diffuse, diffuse),
+          this.y + random(-diffuse, diffuse),
+          this.size * (1.3 + smokeIntensity)
+        );
+      }
+    }
+  }
+}
+```
+
+### mobile (sketch) en estas lineas de codigo fu mas cambiar un poco el canva para que se entendiera un poco mas la funcionalidad al cliente mobil:
+
+
+
+```js
+let socket;
+let lastTouchX = null; 
+let lastTouchY = null; 
+const threshold = 5;
+
+function setup() {
+    createCanvas(400, 500);
+    background(220);
+    socket = io();
+
+    socket.on('connect', () => {
+        console.log('Connected to server');
+    });
+
+    socket.on('message', (data) => {
+        console.log(`Received message: ${data}`);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+    });
+
+    socket.on('connect_error', (error) => {
+        console.error('Socket.IO error:', error);
+    });
+}
+
+function draw() {
+    background(0);
+
+  // Textos fijos en los bordes
+  textSize(18);
+  fill(100);
+  text("Más tranquilo (bolas) ↑", width - 280, 40);
+  text("Más ruidoso (bolas) ↓", width - 280, height - 40);
+  text("→ Más rápido ", width - 130, height / 2);
+  text("Más lento  ←", 10, height / 2);
+
+  // Texto dinámico según el movimiento
+  fill(255, 180);
+  textSize(28);
+  text(directionText, width / 2, height / 2);
+}
+
+function touchMoved() {
+    if (socket && socket.connected) { 
+        let dx = abs(mouseX - lastTouchX);
+        let dy = abs(mouseY - lastTouchY);
+
+        if (dx > threshold || dy > threshold || lastTouchX === null) {
+            let touchData = {
+                type: 'touch',
+                x: mouseX,
+                y: mouseY
+            };
+            socket.emit('message', touchData);
+
+            lastTouchX = mouseX;
+            lastTouchY = mouseY;
+        }
+    }
+    return false;
+}
+```
+*Y en el servidor no movi nada pero igual lo coloco:*
+
+### server.js:
+
+```js
+const express = require('express');
+const http = require('http');
+const socketIO = require('socket.io');
+
+const app = express();
+const server = http.createServer(app); 
+const io = socketIO(server); 
+const port = 3000;
+
+app.use(express.static('public'));
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+    socket.on('message', (message) => {
+        console.log('Received message =>', message);
+        socket.broadcast.emit('message', message);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
+
+server.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+});
+```
+
+Explicacion breve:
+
+```js
+function preload() {
+  song = loadSound('song2.mp3');
+}
+```
+
+Esta parte del codigo se encarga de cargar el audio que tenemos en la carpeta de desktop.
+
+En setup tenemos esta parte de codigo:
+
+```js
+fft = new p5.FFT();
+socket = io();
+```
+
+para que sirven estas dos lineas. ps `fft = new p5.FFT()` crea el analizador que te devolverá el spectrum (arreglo de energía por banda) y getEnergy("bass") y `socket = io()` inicializa Socket.IO en el cliente (usa /socket.io/socket.io.js servido por el servidor).
+
+
+En esta parte esta la logica que se encarga de leer el mensaje enviado por el touch:
+
+```js
+socket.on('message', (data) => {
+  if (data && data.type === 'touch') {
+    let normX = data.x / 300;
+    let normY = data.y / 400;
+
+    playbackRate = map(normX, 0, 1, 0.5, 2);
+    song.rate(playbackRate);
+
+    pitch = map(normY, 0, 1, 0.5, 2);
+
+    if (pitch < 1) {
+      colorTone = [map(pitch, 0.5, 1, 255, 100), 50, 50];
+    } else {
+      colorTone = [50, 100, map(pitch, 1, 2, 100, 255)];
+    }
+  }
+});
+```
+
+y la parte del colorTone se encarga de cambiar el color segun donde enten los datos recibidos cambiando la paleta de color.
+
+La onda central se crea en esta parte:
+```js
+let spectrum = fft.analyze(); // arreglo [0..255]
+beginShape();
+for (let i = 0; i < spectrum.length * 0.9; i += 6) {
+  let x = map(i, 0, spectrum.length * 0.9, 0, width);
+  let y = height / 2 + map(spectrum[i], 0, 255, 100, -100);
+  curveVertex(x, y);
+}
+endShape();
+```
+Donde `fft.analyze()` devuelve un arreglo de amplitudes por banda (0–255) y i += 6 reduce la densidad de puntos (balance detalle/suavidad). El resto de codigo es para que la curva se vea mas suave o mas redonda en tal caso.
+
+### Ahora todo lo que es deteccion de bajo s y generacion de particulas esta aqui:
+
+**Primero los bajos:**
+
+```js
+let bass = fft.getEnergy("bass");
+if (bass > 180 && particles.length < 120) {
+  for (let i = 0; i < 6; i++) { particles.push(new Particle(random(width), random(height))); }
+}
+```
+
+y lo que es la generacion de particulas va aqui:
+
+```js
+for (let i = particles.length - 1; i >= 0; i--) {
+  particles[i].update(bass, pitch);
+  particles[i].display(pitch);
+  if (particles[i].alpha <= 0) particles.splice(i, 1);
+}
+```
+Luego hay mas codigo que se encarga de actualizar las particulas y las ondas y luego tenemos el display que es esta parte de codigo:
+
+```js
+let smokeIntensity = constrain(map(pitch,1,2,0,1),0,1);
+noStroke();
+let t = frameCount * 0.04 + this.x * 0.02 + this.y * 0.02;
+let r = sin(t) * 127 + 128;  // R,G,B ciclo
+...
+let diffuse = lerp(0, 20, smokeIntensity);
+let alphaAdjusted = this.alpha * (1 - smokeIntensity * 0.1);
+fill(r,g,b,alphaAdjusted);
+ellipse(this.x, this.y, this.size + diffuse);
+
+if (smokeIntensity > 0.1) {
+  for (let i = 0; i < 3; i++) {
+    fill(r,g,b,alphaAdjusted * 0.25);
+    ellipse(this.x + random(-diffuse, diffuse), this.y + random(-diffuse, diffuse), this.size * (1.3 + smokeIntensity));
+  }
+}
+```
+
+**Y no se nos puede olvidar lo que hace que palpiten las particulas:**
+
+- El factor pulseBase mapea bass a un rango amplio (0.9 → 3.5). Eso significa que con bajos fuertes la escala se multiplica varias veces sobre baseSize.
+  
+- pulseWave da una modulación temporal (oscilación), y pulsePhase hace que partículas no palpite en sincronía total.
+  
+- Al combinar ambos, el pulso es fuertemente perceptible: el tamaño sube rápidamente con cada golpe bajo y vuelve a bajar.
+
+
+
+
+
+
+
 
 
 
