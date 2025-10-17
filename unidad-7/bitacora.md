@@ -565,6 +565,29 @@ if (smokeIntensity > 0.1) {
   
 - Al combinar ambos, el pulso es fuertemente perceptible: el tamaño sube rápidamente con cada golpe bajo y vuelve a bajar.
 
+## Autoevaluacion
+
+Actividades completadas:
+
+ Actividad 1 - **Estado** = `Completada`
+
+Actividad 2 - **Estado** = `Completada`
+
+Actividad 3 - **Estado** = `Completada`
+
+Actividad 4 - **Estado** = `Completada`
+
+Actividad 5 - **Estado** = `Completada`
+
+Suma total:
+1.0 + 1.0 + 1.0 + 1.0 + 1.0 = 5.0 / 5.0
+
+Nota propuesta: 5.0
+
+Defensa de la nota:
+Completé todas las actividades propuestas en la unidad, realicé la autoevaluación y documenté todo el proceso en la bitácora colocando las respuestas  a las preguntas planteadas y se cumplio el reto sugerido con ayuda de la IA para realizar el codigo. Apliqué los conceptos vistos en clase, desarrollé el diseño previo antes de generar el código y cumplí con todos los criterios establecidos en la rúbrica. Por esta razón que en esta unidad mi nota es de 5.
+
+
 
 
 
