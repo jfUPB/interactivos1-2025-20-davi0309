@@ -23,15 +23,17 @@
 
 
 
-
 2. Define el concepto de las visuales que quieres crear.
 
-  Quiero manejar el sistemas de ondas que ya venia trabajando pero ahora quiero que se vean mucho mejor 
+Quiero manejar el sistemas de ondas que ya venia trabajando pero ahora quiero que se vean mucho mejor algo basico en las ondas depronto agregandole particulas base en la linea y que se vean como auroras siento que le daria un toque muy bacano y ya con las particulas que palpitan o cambian el tamaño segun el bass de la cancion esa idea me siguio gustando pero obviamente bajarle a la cantidad de particulas para que se vean mucho mas las ondas.
 
-4. Explica cómo el móvil y el micro:bit controlarán las visuales.
+3. Explica cómo el móvil y el micro:bit controlarán las visuales.
 
-5. Haz un bocetos de todas las interfaces del sistema.
+estaba pensando que las funcionalidades del celular estan muy bien para reutilizarlas, lo que es la forma de las particulas y el "desorden o lo que dejan detras" entre mas grandes estan, y que se pueda acelerar o desacelerar la cancion ya que la biblioteca de `p5.js` maneja el pitch tambien en esta funcion. Ahora toca pensar en que se pueda hacer desde el microbit o que funcionalidades podria hacer, podriamos manejar los botones ya que los ejes los estamos usando desde el celular, el `BOTON A` podria cambiarle el color de las particulas (por el momento), y el `BOTON B` podria pausarme la cancion y esto conllevaria que la onda baje y que las particulas del bass dejen de instaurar.
 
-6. Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.
+4. Haz un bocetos de todas las interfaces del sistema.
+
+5. Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.
+
 
 
