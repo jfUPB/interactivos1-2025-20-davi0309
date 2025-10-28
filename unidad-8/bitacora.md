@@ -29,11 +29,19 @@ Quiero manejar el sistemas de ondas que ya venia trabajando pero ahora quiero qu
 
 3. Explica cómo el móvil y el micro:bit controlarán las visuales.
 
-estaba pensando que las funcionalidades del celular estan muy bien para reutilizarlas, lo que es la forma de las particulas y el "desorden o lo que dejan detras" entre mas grandes estan, y que se pueda acelerar o desacelerar la cancion ya que la biblioteca de `p5.js` maneja el pitch tambien en esta funcion. Ahora toca pensar en que se pueda hacer desde el microbit o que funcionalidades podria hacer, podriamos manejar los botones ya que los ejes los estamos usando desde el celular, el `BOTON A` podria cambiarle el color de las particulas (por el momento), y el `BOTON B` podria pausarme la cancion y esto conllevaria que la onda baje y que las particulas del bass dejen de instaurar.
+Estaba pensando que las funcionalidades del celular estan muy bien para reutilizarlas, lo que es la forma de las particulas y el "desorden o lo que dejan detras" entre mas grandes estan, y que se pueda acelerar o desacelerar la cancion ya que la biblioteca de `p5.js` maneja el pitch tambien en esta funcion. Ahora toca pensar en que se pueda hacer desde el microbit o que funcionalidades podria hacer, podriamos manejar los botones ya que los ejes los estamos usando desde el celular, el `BOTON A` podria cambiarle el color de las particulas (por el momento), y el `BOTON B` podria pausarme la cancion y esto conllevaria que la onda baje y que las particulas del bass dejen de instaurar.
 
 4. Haz un bocetos de todas las interfaces del sistema.
 
+
+<img width="1065" height="566" alt="imagen" src="https://github.com/user-attachments/assets/577e9794-dee9-4e97-96ae-f9dc431031b6" />
+
 5. Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.
+
+
+<img width="1086" height="691" alt="imagen" src="https://github.com/user-attachments/assets/3f6de5e9-69a9-4ce2-bb36-75504679fd49" />
+
+
 
 
 
