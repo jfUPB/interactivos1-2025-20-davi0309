@@ -38,8 +38,30 @@ Estaba pensando que las funcionalidades del celular estan muy bien para reutiliz
 
 5. Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.
 
+<img width="1079" height="695" alt="imagen" src="https://github.com/user-attachments/assets/58c333f1-0fec-42d6-a29c-470fb9a9c019" />
 
-<img width="1086" height="691" alt="imagen" src="https://github.com/user-attachments/assets/3f6de5e9-69a9-4ce2-bb36-75504679fd49" />
+
+
+
+## APPLY
+
+Le pregunte al profe que si el microbit de tenia que conectar con el servidor y el me hizo entender mucho como funcionaba hasta para cambiar el diagrama que lo tenia malo, ahora entiendo el celular es el unico que se conecta a la nube y vuelve a el server, donde es enviado al escritorio (viasuales) el micro.bit le envia directamente a las vizuales y es obvio cuando ya entiendes que esta conectado por medio de un puerto por ende no nesecita de un servidor para enviar los datos. 
+Ahora escribimos el codigo que es el encargado de enviar la informacion al escritorio apra su posible lectura:
+
+```python
+from microbit import *
+
+while True:
+    if button_a.was_pressed():
+        print("A")
+    if button_b.was_pressed():
+        print("B")
+    sleep(100)
+```
+asi enviamos las dos funcionalidades que pensaba hacer que es la de los botones A y B ya despues en el visual le pondremos la funcionalidad a estos.
+
+
+
 
 
 
