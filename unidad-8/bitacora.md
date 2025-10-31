@@ -1,4 +1,83 @@
 
 # Evidencias de la unidad 8
 
+# Seek: Investigación 🔎
+
+## Actividad 01
+
+1. Documenta los referentes visuales que te inspiren:
+
+<img width="551" height="518" alt="imagen" src="https://github.com/user-attachments/assets/f8e94860-81ba-4b33-8f63-b6ca6a5f5d2e" />
+
+
+<img width="293" height="367" alt="imagen" src="https://github.com/user-attachments/assets/7ef6a2b6-8680-4f6b-9e20-691ae890e7d8" />
+
+
+<img width="293" height="220" alt="imagen" src="https://github.com/user-attachments/assets/833cf2f7-d875-410b-a269-8bab97d69575" />
+
+<img width="290" height="345" alt="imagen" src="https://github.com/user-attachments/assets/f4b4ee0f-b8dc-4167-aa01-6bf28a5ab905" />
+
+<img width="286" height="279" alt="imagen" src="https://github.com/user-attachments/assets/a2a2ada5-aa90-4a05-92d4-9defadc962ba" />
+
+<img width="377" height="652" alt="imagen" src="https://github.com/user-attachments/assets/d45725c8-6a64-491e-b236-51adbf50c8d6" />
+
+
+
+2. Define el concepto de las visuales que quieres crear.
+
+Quiero manejar el sistemas de ondas que ya venia trabajando pero ahora quiero que se vean mucho mejor algo basico en las ondas depronto agregandole particulas base en la linea y que se vean como auroras siento que le daria un toque muy bacano y ya con las particulas que palpitan o cambian el tamaño segun el bass de la cancion esa idea me siguio gustando pero obviamente bajarle a la cantidad de particulas para que se vean mucho mas las ondas.
+
+3. Explica cómo el móvil y el micro:bit controlarán las visuales.
+
+Estaba pensando que las funcionalidades del celular estan muy bien para reutilizarlas, lo que es la forma de las particulas y el "desorden o lo que dejan detras" entre mas grandes estan, y que se pueda acelerar o desacelerar la cancion ya que la biblioteca de `p5.js` maneja el pitch tambien en esta funcion. Ahora toca pensar en que se pueda hacer desde el microbit o que funcionalidades podria hacer, podriamos manejar los botones ya que los ejes los estamos usando desde el celular, el `BOTON A` podria cambiarle el color de las particulas (por el momento), y el `BOTON B` podria pausarme la cancion y esto conllevaria que la onda baje y que las particulas del bass dejen de instaurar.
+
+4. Haz un bocetos de todas las interfaces del sistema.
+
+
+<img width="1065" height="566" alt="imagen" src="https://github.com/user-attachments/assets/577e9794-dee9-4e97-96ae-f9dc431031b6" />
+
+5. Haz un diagrama que explique cómo se comunicarán los diferentes componentes del sistema.
+
+<img width="1079" height="695" alt="imagen" src="https://github.com/user-attachments/assets/58c333f1-0fec-42d6-a29c-470fb9a9c019" />
+
+
+
+
+## APPLY
+
+Le pregunte al profe que si el microbit de tenia que conectar con el servidor y el me hizo entender mucho como funcionaba hasta para cambiar el diagrama que lo tenia malo, ahora entiendo el celular es el unico que se conecta a la nube y vuelve a el server, donde es enviado al escritorio (viasuales) el micro.bit le envia directamente a las vizuales y es obvio cuando ya entiendes que esta conectado por medio de un puerto por ende no nesecita de un servidor para enviar los datos. 
+Ahora escribimos el codigo que es el encargado de enviar la informacion al escritorio apra su posible lectura:
+
+```python
+from microbit import *
+
+while True:
+    if button_a.was_pressed():
+        print("A")
+    if button_b.was_pressed():
+        print("B")
+    sleep(100)
+```
+asi enviamos las dos funcionalidades que pensaba hacer que es la de los botones A y B ya despues en el visual le pondremos la funcionalidad a estos.
+
+## Justificacion
+
+RUBRICA!
+
+> Recuerda que la bitácora se cierra 10 minutos antes de la segunda sesión de la semana 2 de la unidad.
+Si no realizas la autoevaluación tu nota será 0.
+Cada item de la actividad 1 vale 12%.
+La actividad 2 solo se evalúa si está 100% completa y funcional y si tienes los items 1 y 2. Si la actividad 2 no funciona tu nota será 0 en esta actividad. Si no tienes los items 1 o 2 tu nota será 0.
+Durante la semana 2 de la unidad DEBES PRESENTAR EN CLASE la actividad 2. Si no lo presentas en clase tu nota será 0 en esta actividad.
+Rúbrica de evaluación del proceso
+5: realicé las 2 actividades completas, la actividad 2 es 100% funcional y la autoevaluación.
+3: realicé la actividad 1 completa y la autoevaluación.
+0: no realicé ninguna actividad o no realicé la autoevaluación.
+
+Pude acabar con las actividades, pero no pude terminar el reto, tuve la idea pero por tiempos al organizados no use el microbit y no pude probar el programa, tenia muchas ideas y ganas de acabar el semestre con un buen trabajo la verdad, y si me duele no haber podido hacerlo. Termine con las actividades propuestas en su totalidad con preguntas al profe para aclarar dudas respecto a el diagrama, termine los puntos de las actividades menos el apply.
+
+Nota final: 3.0
+
+
+
 
