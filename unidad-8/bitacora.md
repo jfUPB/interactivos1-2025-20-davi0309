@@ -60,9 +60,23 @@ while True:
 ```
 asi enviamos las dos funcionalidades que pensaba hacer que es la de los botones A y B ya despues en el visual le pondremos la funcionalidad a estos.
 
+## Justificacion
 
+RUBRICA!
 
+> Recuerda que la bitácora se cierra 10 minutos antes de la segunda sesión de la semana 2 de la unidad.
+Si no realizas la autoevaluación tu nota será 0.
+Cada item de la actividad 1 vale 12%.
+La actividad 2 solo se evalúa si está 100% completa y funcional y si tienes los items 1 y 2. Si la actividad 2 no funciona tu nota será 0 en esta actividad. Si no tienes los items 1 o 2 tu nota será 0.
+Durante la semana 2 de la unidad DEBES PRESENTAR EN CLASE la actividad 2. Si no lo presentas en clase tu nota será 0 en esta actividad.
+Rúbrica de evaluación del proceso
+5: realicé las 2 actividades completas, la actividad 2 es 100% funcional y la autoevaluación.
+3: realicé la actividad 1 completa y la autoevaluación.
+0: no realicé ninguna actividad o no realicé la autoevaluación.
 
+Pude acabar con las actividades, pero no pude terminar el reto, tuve la idea pero por tiempos al organizados no use el microbit y no pude probar el programa, tenia muchas ideas y ganas de acabar el semestre con un buen trabajo la verdad, y si me duele no haber podido hacerlo. Termine con las actividades propuestas en su totalidad con preguntas al profe para aclarar dudas respecto a el diagrama, termine los puntos de las actividades menos el apply.
+
+Nota final: 3.0
 
 
 
